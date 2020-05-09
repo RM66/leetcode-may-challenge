@@ -8,3 +8,10 @@ var isPerfectSquare = function (num) {
   }
   return i * i === num;
 };
+
+/*
+68 / 68 test cases passed.
+Status: Accepted
+Runtime: 52 ms
+Memory Usage: 34.4 MB
+*/

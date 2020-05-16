@@ -4,24 +4,25 @@
  */
 var maxSubarraySumCircular = function (A) {
   if (A.length === 1) return A[0];
-
-  var C = [...A, ...A.slice(0, -1)];
-  var max = -Infinity;
-
-  for (var start = 0; start < A.length; start++) {
-    var sum = 0;
-    for (var end = start; end < start + A.length; end++) {
-      sum += C[end];
-      if (sum > max) max = sum;
-    }
-  }
-
-  return max;
+  var totalSum = 0;
+  for (var num of A) totalSum += num;
+  var maxSum = maxArrSum(A, 1);
+  var maxNegSum = maxArrSum(A, -1);
+  return maxSum < 0 ? maxSum : Math.max(maxSum, totalSum + maxNegSum);
 };
+
+function maxArrSum(arr, sign) {
+  var max = (sum = -Infinity);
+  for (var i = 0; i < arr.length; i++) {
+    sum = Math.max(arr[i] * sign, arr[i] * sign + sum);
+    if (sum > max) max = sum;
+  }
+  return max;
+}
 
 /*
 109 / 109 test cases passed.
 Status: Accepted
-Runtime: 8048 ms
-Memory Usage: 48.3 MB
+Runtime: 72 ms
+Memory Usage: 41.3 MB
 */

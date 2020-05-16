@@ -10,32 +10,26 @@
  * @return {ListNode}
  */
 var oddEvenList = function (head) {
-  var node = head;
-  var last = null;
-  var pos = 1;
-  while (node) {
-    node.odd = pos % 2;
-    pos++;
-    if (!node.next) last = node;
-    node = node.next;
-  }
+  if (!head) return head;
 
-  var curr = head;
-  var prev = null;
+  var node = head;
+  while (node.next) node = node.next;
+  var firstLast = node;
+  var last = node;
+  var curr = head.next;
+  var prev = head;
   var firstEven = null;
+
   while (curr) {
     if (curr === firstEven) break;
-    if (!curr.odd) {
-      if (!firstEven) firstEven = curr;
-      last.next = curr;
-      prev.next = curr.next;
-      curr.next = null;
-      last = curr;
-      curr = prev.next;
-    } else {
-      prev = curr;
-      curr = curr.next;
-    }
+    if (!firstEven) firstEven = curr;
+    last.next = curr;
+    prev.next = curr.next;
+    curr.next = null;
+    if (curr === firstLast) break;
+    last = curr;
+    prev = prev.next;
+    curr = prev.next;
   }
 
   return head;
@@ -44,6 +38,6 @@ var oddEvenList = function (head) {
 /*
 71 / 71 test cases passed.
 Status: Accepted
-Runtime: 56 ms
+Runtime: 68 ms
 Memory Usage: 36.3 MB
 */

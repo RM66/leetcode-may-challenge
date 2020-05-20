@@ -12,32 +12,24 @@
  * @return {number}
  */
 var kthSmallest = function (root, k) {
-  function inOrder(node) {
+  var i = 0;
+  var res;
+
+  (function inOrder(node) {
     if (!node) return;
     inOrder(node.left);
-    if (node.val < smallest[0]) {
-      smallest.unshift(node.val);
-    } else if (node.val < smallest[k - 1]) {
-      for (var i = k - 1; i >= 0; i--) {
-        if (smallest[i] <= node.val) {
-          smallest[i + 1] = node.val;
-          break;
-        }
-      }
-    }
-    smallest.length = k;
+    if (res) return;
+    i++;
+    if (i === k) return (res = node.val);
     inOrder(node.right);
-  }
+  })(root);
 
-  const smallest = new Array(k).fill(Infinity);
-  inOrder(root);
-
-  return smallest[k - 1];
+  return res;
 };
 
 /*
 91 / 91 test cases passed.
 Status: Accepted
-Runtime: 60 ms
-Memory Usage: 39.1 MB
+Runtime: 64 ms
+Memory Usage: 39.3 MB
 */

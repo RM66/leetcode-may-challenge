@@ -6,38 +6,41 @@
 var possibleBipartition = function (N, dislikes) {
   if (N === 1) return true;
 
-  var queue = []; // pairs
-  var group1 = [dislikes[0][0]];
-  var group2 = [dislikes[0][1]];
+  var graph = {};
+  var colors;
 
-  function distribute(pair) {
-    if (group1.includes(pair[0])) {
-      group2.push(pair[1]);
-    } else if (group2.includes(pair[0])) {
-      group1.push(pair[1]);
-    } else if (group1.includes(pair[1])) {
-      group2.push(pair[0]);
-    } else if (group2.includes(pair[1])) {
-      group1.push(pair[0]);
-    } else return false;
+  for (var pair of dislikes) {
+    if (graph[pair[0]]) graph[pair[0]].push(pair[1]);
+    else graph[pair[0]] = [pair[1]];
+    if (graph[pair[1]]) graph[pair[1]].push(pair[0]);
+    else graph[pair[1]] = [pair[0]];
   }
 
-  for (var i = 1; i < dislikes.length; i++) {
-    var pair = dislikes[i];
-    if (distribute(pair) === false) queue.push(pair);
-  }
-  while (queue.length) {
-    var pair = queue.shift();
-    if (distribute(pair) === false) queue.push(pair);
-  }
+  var sortedGraph = Object.entries(graph).sort(
+    ([k1, v1], [k2, v2]) => v2.length - v1.length
+  );
 
-  for (var i = 0; i < group1.length; i++) {
-    if (group2.includes(group1[i])) return false;
+  for (var [n, enemies] of sortedGraph) {
+    if (!colors) {
+      colors = {};
+      colors[n] = true;
+      for (var x of enemies) colors[x] = false;
+      continue;
+    }
+    if (n in colors) {
+      var xColor = !colors[n];
+      for (var x of enemies) {
+        if (x in colors && colors[x] !== xColor) return false;
+        colors[x] = xColor;
+      }
+    }
   }
   return true;
 };
 
 /*
-7 / 66 test cases passed.
-Status: Time Limit Exceeded
+66 / 66 test cases passed.
+Status: Accepted
+Runtime: 140 ms
+Memory Usage: 48.2 MB
 */

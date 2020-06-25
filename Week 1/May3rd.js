@@ -8,9 +8,8 @@ var canConstruct = function (ransomNote, magazine) {
 
   var rNoteDict = {};
   var magazDict = {};
-  var len = Math.max(ransomNote.length, magazine.length);
 
-  for (var i = 0; i < len; i++) {
+  for (var i = 0; i < magazine.length; i++) {
     var rNoteChar = ransomNote[i];
     var magazChar = magazine[i];
     if (rNoteChar) {

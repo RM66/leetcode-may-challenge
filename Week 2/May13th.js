@@ -34,3 +34,31 @@ Status: Accepted
 Runtime: 64 ms
 Memory Usage: 35.7 MB
 */
+
+/**
+ * @param {string} num
+ * @param {number} k
+ * @return {string}
+ */
+var removeKdigits = function (num, k) {
+  var stack = [];
+  for (var n of num) {
+    while (k > 0 && stack.length && stack[stack.length - 1] > n) {
+      stack.pop();
+      k--;
+    }
+    stack.push(n);
+  }
+  while (k > 0) {
+    stack.pop();
+    k--;
+  }
+  return stack.join("").replace(/^0*/, "") || "0";
+};
+
+/*
+33 / 33 test cases passed.
+Status: Accepted
+Runtime: 80 ms
+Memory Usage: 38.9 MB
+*/

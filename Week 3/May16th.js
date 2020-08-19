@@ -41,3 +41,39 @@ Status: Accepted
 Runtime: 68 ms
 Memory Usage: 36.3 MB
 */
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var oddEvenList = function (head) {
+  if (!head) return head;
+
+  var odd = head;
+  var even = head.next;
+  var evenHead = even;
+
+  while (even && even.next) {
+    odd.next = even.next;
+    odd = odd.next;
+    even.next = odd.next;
+    even = even.next;
+  }
+  odd.next = evenHead;
+
+  return head;
+};
+
+/*
+71 / 71 test cases passed.
+Status: Accepted
+Runtime: 72 ms
+Memory Usage: 39.3 MB
+*/

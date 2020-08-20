@@ -57,20 +57,20 @@ var checkInclusion = function (s1, s2) {
   }
   var count = 0;
   for (var i = 0; i < 26; i++) {
-    if (s1map[i] == s2map[i]) count++;
+    if (s1map[i] === s2map[i]) count++;
   }
   for (var i = 0; i < s2.length - s1.length; i++) {
-    var r = s2.charCodeAt(i + s1.length) - base;
+    if (count === 26) return true;
     var l = s2.charCodeAt(i) - base;
-    if (count == 26) return true;
-    s2map[r]++;
-    if (s2map[r] == s1map[r]) count++;
-    else if (s2map[r] == s1map[r] + 1) count--;
+    var r = s2.charCodeAt(i + s1.length) - base;
     s2map[l]--;
-    if (s2map[l] == s1map[l]) count++;
-    else if (s2map[l] == s1map[l] - 1) count--;
+    s2map[r]++;
+    if (s2map[l] === s1map[l]) count++;
+    else if (s2map[l] === s1map[l] - 1) count--;
+    if (s2map[r] === s1map[r]) count++;
+    else if (s2map[r] === s1map[r] + 1) count--;
   }
-  return count == 26;
+  return count === 26;
 };
 
 /*
